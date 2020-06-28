@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "loadmore": "/components/loadmore",
+    "playerBar": "/components/player"
+  }
+}

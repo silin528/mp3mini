@@ -1,0 +1,23 @@
+server:
+  port: 8888
+  servlet:
+    context-path: /silin
+
+spring:
+  data:
+    mongodb:
+      database: music
+      port: 27017
+      host: 127.0.0.1
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+
+
+
+file:
+  savepath: E:\SpringBootDemo\mongdb\src\main\resources\static\audio
+#    E:\SpringBootDemo\mongdb\upload\audio

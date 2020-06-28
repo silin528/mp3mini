@@ -1,0 +1,51 @@
+<!--pages/music/list.wxml-->
+<wxs module="time" src="../../utils/wxs/time.wxs"></wxs>
+
+<view>
+  <view class='typeTitle'>
+    <view class='typeList df-j-b'>
+      <block wx:for="{{types}}" wx:for-item='v' wx:for-index='k' wx:key='k'>
+        <view bindtap='changeAudio' data-k="{{k}}" class="{{k===currentType ? 'itemShow' : ''}} typeItem">{{v}}</view>
+      </block>
+    </view>
+    <view class='navSwiper'>
+      <view style="left:{{currentType * 20}}%" class='navSlider'>
+        <view 
+        style="width:calc(60% + {{lineWidth}}px); margin-left:calc(20% - {{lineLeft}}px); transition: {{lineWidth > 0 ? '' : 'all 0.5s'}};" 
+        class='navLine'></view>
+      </view>
+    </view>
+  </view>
+
+  <swiper
+    circular="{{true}}"
+    current="{{currentType}}"
+    style="width:100%;height:{{swiperHeight}}px;"
+    bindchange='handleChangeIndex'
+  >
+    <block wx:for="{{musics}}" wx:for-item='v' wx:for-index='k' wx:key='k'> 
+      <swiper-item>
+        <view bindtouchstart='handleTouchStart' bindtouchmove='handleTouchMove' bindtouchend='handleTouchEnd' class="{{currentType === k ? 'swiperShow' : 'swiper'}}">
+          <block wx:for="{{v.audios}}" wx:for-item="e" wx:for-index="i" wx:key="i">
+            <view bindtap='toDetail' data-e="{{e}}" data-i="{{i}}" class="item df {{player.playing.id === e.id && player.status === 1? 'item_show' : ''}}">
+              <image wx:if="{{player.i_resource}}" class='item_cover' src="{{player.i_resource + e.cover + '-cover'}}"></image>
+              <view class='item_info df-1'>
+                <view class='item_name'>{{e.name}}</view>
+                <view class='singer_name df'>
+                  <view class='singer_avatar'>
+                    <image wx:if="{{player.i_resource}}" class='avatar_img' src="{{player.i_resource + e.singer.avatar + '-avatar'}}"></image>
+                  </view>
+                  {{e.singer.name}}
+                </view>
+                <view class='item_date'>{{time.dateFormat(e.date)}}</view>
+              </view>
+            </view>
+          </block>
+        </view>
+      </swiper-item>
+    </block>
+  </swiper>
+
+  <loadmore class="component-container" loading='{{loadingArr[currentType]}}'></loadmore>
+  <playerBar currentTime="{{player.playing.currentTime}}" bind:updatePlayer="updatePlayer"></playerBar>
+</view>
